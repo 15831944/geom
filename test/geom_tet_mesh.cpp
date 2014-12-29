@@ -1,4 +1,4 @@
-#include "geom/cgal.h"
+#include "cgal.h"
 #include <iostream>
 #include <sstream>
 
