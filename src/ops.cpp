@@ -48,6 +48,9 @@
 // merge
 #include <CGAL/Nef_nary_union_3.h>
 
+// subdivide
+#include <CGAL/Subdivision_method_3.h>
+
 // Meshing
 typedef CGAL::Exact_predicates_inexact_constructions_kernel Inexact_Kernel;
 typedef CGAL::Mesh_polyhedron_3<Inexact_Kernel>::type Mesh_polyhedron_3;
@@ -131,6 +134,14 @@ polyhedron_t merge(const std::vector<polyhedron_t>& polyhedra)
 
 	auto priv = std::make_shared<polyhedron_t::private_t>(op.get_union());
 	return make_polyhedron( std::move(priv) );
+}
+
+polyhedron_t subdivide(const polyhedron_t& polyhedron, unsigned step) {
+	auto P = to_Polyhedron_3(polyhedron);
+
+    CGAL::Subdivision_method_3::CatmullClark_subdivision(P, step);
+    auto priv = std::make_shared<polyhedron_t::private_t>( P );
+    return make_polyhedron( std::move(priv) );
 }
 
 }

@@ -45,6 +45,7 @@ struct polyline_t
 polyhedron_t glide(const polyhedron_t& polyhedron, const polyline_t& path);
 double volume(const polyhedron_t& polyhedron);
 polyhedron_t merge(const std::vector<polyhedron_t>& polyhedra);
+polyhedron_t subdivide(const polyhedron_t& polyhedron, unsigned step);
 
 }
 
