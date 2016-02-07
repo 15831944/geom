@@ -26,17 +26,17 @@
 #include "private.h"
 #include <CGAL/iterator.h>
 #include <CGAL/number_utils.h>
+#include <CGAL/IO/Polyhedron_iostream.h>
 #include <cassert>
 
 namespace geom
 {
 
-object_t to_object(const polyhedron_t& poly)
+object_t to_object(const Polyhedron_3& P)
 {
 	typedef Polyhedron_3::Halfedge_around_facet_circulator Halfedge_around_facet_circulator;
 	typedef typename Polyhedron_3::Vertex_const_iterator Vertex_const_iterator;
 	
-	auto P = to_Polyhedron_3(poly);
 	object_t o;
 	
 	o.vertices.reserve(P.size_of_vertices());
@@ -75,6 +75,20 @@ object_t to_object(const polyhedron_t& poly)
         }
 	}
 	return o;
+}
+
+object_t to_object(const polyhedron_t& poly)
+{
+	auto P = to_Polyhedron_3(poly);
+    return to_object(P);
+}
+
+std::istream& operator>>(std::istream& is, object_t& obj)
+{
+    Polyhedron_3 P;
+    if(is >> P)
+        obj = to_object(P);
+    return is;
 }
 
 }

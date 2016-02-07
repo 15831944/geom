@@ -25,6 +25,7 @@
 #ifndef GEOM_IO_H_
 #define GEOM_IO_H_
 #include <vector>
+#include <iosfwd>
 
 namespace geom
 {
@@ -57,6 +58,7 @@ struct object_t
 };
 
 object_t to_object(const polyhedron_t& poly);
+std::istream& operator>>(std::istream&, object_t&);
 
 }
 
