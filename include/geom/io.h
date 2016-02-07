@@ -34,15 +34,25 @@ class polyhedron_t;
 // TODO better name
 struct object_t
 {
-	struct vertex
+	struct vertex_3
 	{
 		double x;
 		double y;
 		double z;
 	};
-	typedef std::vector<std::size_t> face;
+	struct vector_3
+	{
+		double x;
+		double y;
+		double z;
+	};
+	struct face
+	{
+		std::vector<std::size_t> vertices;
+		vector_3 normal;
+	};
 	
-	std::vector<vertex> vertices;
+	std::vector<vertex_3> vertices;
 	std::vector<face> faces;
 };
 

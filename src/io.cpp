@@ -25,6 +25,7 @@
 #include "polyhedron.h"
 #include "private.h"
 #include <CGAL/iterator.h>
+#include <CGAL/number_utils.h>
 #include <cassert>
 
 namespace geom
@@ -56,12 +57,22 @@ object_t to_object(const polyhedron_t& poly)
 		
 	    o.faces.emplace_back();
 	    object_t::face& f = o.faces.back();
-	    f.reserve(n);
+	    f.vertices.reserve(n);
 		do
 		{
-			f.push_back(index[Vertex_const_iterator(hc->vertex())]);
+			f.vertices.push_back(index[Vertex_const_iterator(hc->vertex())]);
 			++hc;
 		} while(hc != hc_end);
+
+        {
+            auto h = fi->halfedge();
+            auto normal = CGAL::cross_product(
+                h->next()->vertex()->point() - h->vertex()->point(),
+                h->next()->next()->vertex()->point() - h->next()->vertex()->point());
+            f.normal.x = to_double(normal.x());
+            f.normal.y = to_double(normal.y());
+            f.normal.z = to_double(normal.z());
+        }
 	}
 	return o;
 }
