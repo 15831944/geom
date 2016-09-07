@@ -36,8 +36,6 @@ namespace detail
 
 static const double PI = 3.14159265358979323846;
 
-// TODO Correct narrowing conversion warnings this code causes.
-// Note that DOLFIN code below relies on integer ops for correctness.
 template<typename HalfedgeDS>
 inline void add_facet(CGAL::Polyhedron_incremental_builder_3<HalfedgeDS>& builder, std::initializer_list<std::size_t> vertices)
 {
@@ -110,9 +108,9 @@ public:
 		for (std::size_t i = 0; i != num_sectors; ++i)
 		{
 			// Bottom facet
-			add_facet(builder, { num_vertices - 2, (i + 1) % num_sectors, i });
+			add_facet(builder, { static_cast<std::size_t>(num_vertices - 2), (i + 1) % num_sectors, i });
 			// Top facet
-			add_facet(builder, { num_vertices - 1, top_offset + (i % num_sectors), top_offset + (i + 1) % num_sectors });
+			add_facet(builder, { static_cast<std::size_t>(num_vertices - 1), top_offset + (i % num_sectors), top_offset + (i + 1) % num_sectors });
 		}
 		builder.end_surface();
 	}
@@ -229,20 +227,20 @@ public:
 
 		// Construct the facets on the side.
 		// Vertices must be sorted counter clockwise seen from inside.
-		for (int i = 0; i != num_sides; ++i)
+		for (std::size_t i = 0; i != num_sides; ++i)
 		{
 			if (top_degenerate)
 			{
-				add_facet(builder, { (i + 1) % num_sides, i, num_vertices - 1 });
+				add_facet(builder, { (i + 1) % num_sides, i, static_cast<std::size_t>(num_vertices - 1) });
 			}
 			else if (bottom_degenerate)
 			{
-				add_facet(builder, { i, (i + 1) % num_sides, num_vertices - 1 });
+				add_facet(builder, { i, (i + 1) % num_sides, static_cast<std::size_t>(num_vertices - 1) });
 			}
 			else
 			{
 				//Draw the sides as triangles.
-				const int vertex_offset = i * 2;
+				const auto vertex_offset = i * 2;
 
 				// First triangle
 				add_facet(builder, { vertex_offset, vertex_offset + 1, (vertex_offset + 2) % (num_sides * 2) });
@@ -258,21 +256,21 @@ public:
 			for (int i = num_sides - 1; i >= 0; i -= 1)
 			{
 				if (!top_degenerate)
-					add_facet(builder, { num_vertices - 2, i * 2, ((i + 1) * 2) % (num_sides * 2) });
+					add_facet(builder, { static_cast<std::size_t>(num_vertices - 2), static_cast<std::size_t>(i * 2), static_cast<std::size_t>(((i + 1) * 2) % (num_sides * 2)) });
 				else
-					add_facet(builder, { num_vertices - 2, i, (i + 1) % num_sides });
+					add_facet(builder, { static_cast<std::size_t>(num_vertices - 2), static_cast<std::size_t>(i), static_cast<std::size_t>((i + 1) % num_sides) });
 			}
 		}
 
 		// Construct the the top facet
 		if (!top_degenerate)
 		{
-			for (int i = 0; i != num_sides; ++i)
+			for (std::size_t i = 0; i != num_sides; ++i)
 			{
 				if (!bottom_degenerate)
-					add_facet(builder, { num_vertices - 1, ((i + 1) * 2) % (num_sides * 2) + 1, i * 2 + 1 });
+					add_facet(builder, { static_cast<std::size_t>(num_vertices - 1), ((i + 1) * 2) % (num_sides * 2) + 1, i * 2 + 1 });
 				else
-					add_facet(builder, { num_vertices - 2, (i + 1) % num_sides, i });
+					add_facet(builder, { static_cast<std::size_t>(num_vertices - 2), (i + 1) % num_sides, i });
 			}
 		}
 
