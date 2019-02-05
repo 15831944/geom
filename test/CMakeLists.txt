@@ -23,6 +23,7 @@ geom_explode
 geom_nonmanifold 
 geom_validate_rotations 
 geom_validate_boolean 
+geom_project
 )
 	CXXCAM_TEST(${test})
 ENDFOREACH()
