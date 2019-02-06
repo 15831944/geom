@@ -16,7 +16,7 @@
  */
 
 /*
- * ops_project.cpp
+ * ops_projection.cpp
  *
  *  Created on: 05/02/2019
  *      Author: nicholas
@@ -43,7 +43,7 @@ typedef CGAL::Polygon_with_holes_2<Nef_Kernel> Polygon_with_holes_2;
 namespace geom
 {
 
-std::vector<polygon_t> project(const polyhedron_t& polyhedron) {
+std::vector<polygon_t> projection_xy(const polyhedron_t& polyhedron) {
 	auto P = to_Polyhedron_3(polyhedron);
 
     // Based on https://stackoverflow.com/questions/50467907/polyhedron-projection-to-xy-plane-with-cgal

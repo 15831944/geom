@@ -10,7 +10,7 @@ using namespace geom;
 int main()
 {
 	auto model = make_cone({0, 0, 20}, {0, 0, 0}, 3, 3, 8);
-    auto polygons = project(model);
+    auto polygons = projection_xy(model);
 
     auto output_path = [](const polygon_t::polygon& path) {
         std::ostringstream ss;
