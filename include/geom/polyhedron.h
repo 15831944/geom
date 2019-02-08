@@ -84,6 +84,7 @@ namespace format
 {
 // Use OFF file format (default; recommended)
 std::ios_base& off(std::ios_base&);
+std::ios_base& off_repair(std::ios_base&);
 // Use OFF file format (useful in some situations but non-portable)
 std::ios_base& nef(std::ios_base&);
 }

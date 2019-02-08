@@ -183,6 +183,7 @@ namespace format
 enum Type
 {
 	OFF,
+	OFF_Repair,
 	NEF
 };
 
@@ -195,6 +196,11 @@ int itag()
 std::ios_base& off(std::ios_base& ios)
 {
 	ios.iword(itag()) = OFF;
+	return ios;
+}
+std::ios_base& off_repair(std::ios_base& ios)
+{
+	ios.iword(itag()) = OFF_Repair;
 	return ios;
 }
 std::ios_base& nef(std::ios_base& ios)
@@ -210,6 +216,7 @@ std::ostream& operator<<(std::ostream& os, const polyhedron_t& poly)
 	switch(os.iword(format::itag()))
 	{
 		case format::OFF:
+		case format::OFF_Repair:
 			os << to_Polyhedron_3(poly);
 			break;
 		case format::NEF:
@@ -225,9 +232,16 @@ std::istream& operator>>(std::istream& is, polyhedron_t& poly)
 	poly.ensure_unique();
 	switch(is.iword(format::itag()))
 	{
-		case format::OFF:
+		case format::OFF_Repair:
 			CGAL::OFF_to_nef_3(is, poly.priv->nef);
 			break;
+		case format::OFF:
+		{
+			Polyhedron_3 P;
+			is >> P;
+			poly.priv->nef = { P };
+			break;
+		}
 		case format::NEF:
 			is >> poly.priv->nef;
 			break;
