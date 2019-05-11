@@ -24,6 +24,7 @@ geom_nonmanifold
 geom_validate_rotations 
 geom_validate_boolean 
 geom_project
+geom_convex
 )
 	CXXCAM_TEST(${test})
 ENDFOREACH()
