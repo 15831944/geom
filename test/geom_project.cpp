@@ -12,10 +12,10 @@ int main()
 	auto model = make_cone({0, 0, 20}, {0, 0, 0}, 3, 3, 8);
     auto polygons = projection_xy(model);
 
-    auto output_path = [](const polygon_t::polygon& path) {
+    auto output_path = [](const polygon_t& path) {
         std::ostringstream ss;
         bool rapid_to_first = true;
-        for (auto& p : path) {
+        for (auto& p : path.points) {
             if (rapid_to_first) {
                 ss << std::fixed << "M" << p.x << " " << p.y;
                 rapid_to_first = false;
