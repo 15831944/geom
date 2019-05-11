@@ -61,6 +61,7 @@ double volume(const polyhedron_t& polyhedron);
 polyhedron_t merge(const std::vector<polyhedron_t>& polyhedra);
 polyhedron_t subdivide(const polyhedron_t& polyhedron, unsigned step);
 std::vector<polygon_tree_t> projection_xy(const polyhedron_t& polyhedron);
+std::vector<polygon_t> convex_partition(const polygon_t& polygon);
 
 }
 
