@@ -43,7 +43,7 @@ typedef CGAL::Polygon_with_holes_2<Nef_Kernel> Polygon_with_holes_2;
 namespace geom
 {
 
-std::vector<polygon_t> projection_xy(const polyhedron_t& polyhedron) {
+std::vector<polygon_tree_t> projection_xy(const polyhedron_t& polyhedron) {
 	auto P = to_Polyhedron_3(polyhedron);
 
     // Based on https://stackoverflow.com/questions/50467907/polyhedron-projection-to-xy-plane-with-cgal
@@ -71,14 +71,14 @@ std::vector<polygon_t> projection_xy(const polyhedron_t& polyhedron) {
     CGAL::join(ii.begin(), ii.end(), std::back_inserter(oi));
 
     auto to_poly = [] (const Polygon_2& P) {
-        polygon_t::polygon p;
-        p.reserve(P.size());
+        polygon_t p;
+        p.points.reserve(P.size());
         for(auto vi = P.vertices_begin(); vi != P.vertices_end(); ++vi)
-            p.push_back({ to_double(vi->x()), to_double(vi->y()) });
+            p.points.push_back({ to_double(vi->x()), to_double(vi->y()) });
         return p;
     };
 
-    std::vector<polygon_t> projection;
+    std::vector<polygon_tree_t> projection;
     for (auto& o : oi) {
         projection.emplace_back();
         auto& p = projection.back();

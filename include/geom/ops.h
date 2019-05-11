@@ -49,15 +49,18 @@ struct polygon_t
 		double x;
 		double y;
 	};
-    using polygon = std::vector<point>;
-    std::vector<polygon> polygons;
+    std::vector<point> points;
+};
+struct polygon_tree_t
+{
+    std::vector<polygon_t> polygons;
 };
 
 polyhedron_t glide(const polyhedron_t& polyhedron, const polyline_t& path);
 double volume(const polyhedron_t& polyhedron);
 polyhedron_t merge(const std::vector<polyhedron_t>& polyhedra);
 polyhedron_t subdivide(const polyhedron_t& polyhedron, unsigned step);
-std::vector<polygon_t> projection_xy(const polyhedron_t& polyhedron);
+std::vector<polygon_tree_t> projection_xy(const polyhedron_t& polyhedron);
 
 }
 
