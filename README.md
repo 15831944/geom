@@ -7,3 +7,8 @@ Wrapper primary purpose is to increase compilation speed by reducing the number 
 instanciated.
 
 Utilities include volume calculation, primitive construction (imported from DOLFIN), and query functions.
+
+Building
+--------
+
+Install CGAL 4.14, set `CGAL_DIR` to path containing CGAL when building.

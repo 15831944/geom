@@ -39,7 +39,7 @@
 #include <CGAL/Nef_nary_union_3.h>
 
 // subdivide
-#include <CGAL/Subdivision_method_3.h>
+#include <CGAL/subdivision_method_3.h>
 
 namespace geom
 {
@@ -79,8 +79,9 @@ polyhedron_t merge(const std::vector<polyhedron_t>& polyhedra)
 
 polyhedron_t subdivide(const polyhedron_t& polyhedron, unsigned step) {
 	auto P = to_Polyhedron_3(polyhedron);
+    namespace params = CGAL::parameters;
 
-    CGAL::Subdivision_method_3::CatmullClark_subdivision(P, step);
+    CGAL::Subdivision_method_3::CatmullClark_subdivision(P, params::number_of_iterations(step));
     auto priv = std::make_shared<polyhedron_t::private_t>( P );
     return make_polyhedron( std::move(priv) );
 }
